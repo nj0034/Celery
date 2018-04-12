@@ -7,5 +7,6 @@ from rest_framework.views import APIView
 import requests
 
 
-class StartParsing(APIView):
-    def get(self, request):
+class UpdateParsingState(APIView):
+    def get(self):
+        return Response(status=status.HTTP_200_OK)
