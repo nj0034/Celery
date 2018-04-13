@@ -6,7 +6,7 @@ from celery.result import AsyncResult
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'luna_celery.settings')
 
-app = Celery('luna_celery', backend='amqp', broker='guest:guest@13.125.125.118:5672//', include=['parsing_celery.tasks'])
+app = Celery('luna_celery', backend='amqp', broker='amqp://', include=['parsing_celery.tasks'])
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
