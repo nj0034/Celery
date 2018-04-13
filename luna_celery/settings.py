@@ -26,8 +26,9 @@ SECRET_KEY = '4z14#gzl^xh)db6gkg$f(2fc^16dcf-^#&nz%pwgy9cxy@1lpg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
+CELERY_RESULT_BACKEND = 'django-db'
 
 # Application definition
 
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django_celery_results',
     'raven.contrib.django.raven_compat',
     'rest_framework',
-    # 'django.contrib.staticfiles',
     'debug_toolbar',
 ]
 
