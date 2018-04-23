@@ -16,7 +16,7 @@ def update_state(celery_task_id):
     result_info = {
         "celery_task_id": celery_task_id,
         "end_datetime": task_result.date_done,
-        "state": task_result.status,
+        "result_state": task_result.status,
         "error_message": task_result.result
     }
 
@@ -43,17 +43,20 @@ class UpdateParsingState(APIView):
 class StartParsing(APIView):
     def post(self, request):
         sailer_name_list = dict(request.data).get('sailer_name_list')
+        print(sailer_name_list)
 
         start_task_list = list()
 
         for sailer_name in sailer_name_list:
-            task = parsing(sailer_name)
+            task = parsing.delay(sailer_name)
 
             result_info = {
                 "sailer_name": sailer_name,
                 "celery_task_id": task.id,
                 "start_datetime": datetime.now()
             }
+            
+            print(result_info)
 
             start_task_list.append(result_info)
 
