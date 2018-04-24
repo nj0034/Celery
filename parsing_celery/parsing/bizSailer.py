@@ -36,8 +36,8 @@ class BizSailer(Sailer):
         self.hit = data.split('분류')[1].split('번호')[1].split('작성일')[1].split('조회')[1]
         date = data.split('분류')[1].split('번호')[1].split('작성일')[1].split('조회')[0]
         self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
-        self.content = self.css(r'#container > div.content > div.board_view > div.view_content').text
-        # print(self.sub)
+        self.content = self.css(r'#container > div.content > div.board_view > div.view_content').get_attribute('innerHTML')
+        print(self.sub)
         # print(self.writer)
         # print(self.hit)
         # print(self.date)
@@ -53,6 +53,7 @@ class BizSailer(Sailer):
         self.attach_name = list()
         attach_url_form = 'https://biz.skku.edu/cmm/fms/FileDown.do?atchFileId={0}&fileSn={1}'
         atchFileIds = self.xpaths(r'//*[@id="container"]/div[3]/div[1]/div[3]/a[*]')
+        print(atchFileIds)
         for fileSn, atchFileId in enumerate(atchFileIds):
             self.attach_name.append(atchFileId.text)
             print(self.attach_name)

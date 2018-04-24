@@ -39,7 +39,7 @@ class SscienceSailer(Sailer):
             self.go(self.url)
             self.sub = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[1]/td').text
             self.writer = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[1]').text
-            self.content = self.xpath(r'//*[@id="article_text"]').text
+            self.content = self.xpath(r'//*[@id="article_text"]').get_attribute('innerHTML')
             self.hit = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[3]').text
             date = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[2]').text
             self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
@@ -56,10 +56,12 @@ class SscienceSailer(Sailer):
                 self.img_url.append(img.get_attribute('src'))
 
             self.attach_url = []
+            self.attach_name = list()
             attachs = self.xpaths(
                 r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[3]/td/ul/li[*]/a')
             for attach in attachs:
                 self.attach_url.append(attach.get_attribute('href'))
+                self.attach_name.append(attach.get_attribute('title').split('다운로드')[0].strip())
 
             notice_store(self)
             time.sleep(random.randrange(5, 10))

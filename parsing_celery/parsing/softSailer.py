@@ -29,7 +29,7 @@ class SoftSailer(Sailer):
         self.xpath(r'//*[@id="title"]')
         self.sub = self.xpath(r'//*[@id="title"]').text
         self.writer = self.xpath(r'//*[@id="name"]').text
-        self.content = self.xpath(r'//*[@id="text"]').text
+        self.content = self.xpath(r'//*[@id="text"]').get_attribute('innerHTML')
         self.hit = self.xpath(r'//*[@id="views"]').text
         date = self.xpath(r'//*[@id="time"]').text
         self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
@@ -46,8 +46,9 @@ class SoftSailer(Sailer):
         attachs = self.xpaths(r'//*[@id="files"]/div[*]/div/a')
         for attach in attachs:
             self.attach_url.append(attach.get_attribute('href'))
+            print(attach.text)
 
-        notice_store(self)
+        # notice_store(self)
 
         time.sleep(random.randrange(5, 10))
 

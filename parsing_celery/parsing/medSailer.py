@@ -33,7 +33,7 @@ class MedSailer(Sailer):
             self.writer = self.xpath(
                 r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td[3]').text
             self.content = self.xpath(
-                r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr[8]/td').text
+                r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr[8]/td').get_attribute('innerHTML')
             self.hit = self.xpath(
                 r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr[4]/td[11]/div').text
             date = self.xpath(
@@ -49,9 +49,11 @@ class MedSailer(Sailer):
                 self.img_url.append(img.get_attribute('src'))
 
             self.attach_url = []
+            self.attach_name = list()
             attachs = self.xpaths(r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr[6]/td[3]/a')
             for attach in attachs:
                 self.attach_url.append(attach.get_attribute('href'))
+                self.attach_name.append(attach.text.strip())
 
             notice_store(self)
             time.sleep(random.randrange(5, 10))

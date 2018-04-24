@@ -28,7 +28,7 @@ class Not_janghakSailer(Sailer):
             self.writer = self.xpath(r'//*[@id="contents"]/table[1]/tbody/tr[2]/td[1]').text
             self.number = self.xpath(r'//*[@id="contents"]/table[1]/tbody/tr[2]/td[2]').text
             self.hit = self.xpath(r'//*[@id="contents"]/table[1]/tbody/tr[3]/td[2]').text
-            self.content = self.xpath(r'//*[@id="contents"]/div[1]').text
+            self.content = self.xpath(r'//*[@id="contents"]/div[1]').get_attribute('innerHTML')
             date = self.xpath(r'//*[@id="contents"]/table[1]/tbody/tr[3]/td[1]').text
             self.date = convert_datetime(date, '%Y.%m.%d %H:%M:%S', '%Y-%m-%d %H:%M:%S')
             self.category = '장학'
@@ -43,7 +43,7 @@ class Not_janghakSailer(Sailer):
             files = self.xpaths(r'//*[@id="contents"]/div[2]/ul/li[*]/a')
             for file in files:
                 file_hrefs.append(file.get_attribute('href'))
-                self.attach_name.append(re.compile('(?P<attach_name>.*) \(').search(file.text).group("attach_name"))
+                self.attach_name.append(re.compile('(?P<attach_name>.*) \(\d*KB\)').search(file.text).group("attach_name"))
 
             self.attach_url = notice_attach_url(file_hrefs)
 

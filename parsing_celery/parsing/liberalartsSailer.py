@@ -32,7 +32,7 @@ class LiberalartsSailer(Sailer):
             self.go('http://liberalarts.skku.edu/liberal/menu_6/data_01.jsp?mode=view&article_no=321684&board_wrapper=%2Fliberal%2Fmenu_6%2Fdata_01.jsp&pager.offset=0&board_no=229')
             self.sub = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[1]/td').text
             self.writer = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[1]').text
-            self.content = self.xpath(r'//*[@id="article_text"]').text
+            self.content = self.xpath(r'//*[@id="article_text"]').get_attribute('innerHTML')
             self.hit = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[3]').text
             date = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[2]').text
             self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
@@ -49,9 +49,11 @@ class LiberalartsSailer(Sailer):
                 self.img_url.append(img.get_attribute('src'))
 
             self.attach_url = []
+            self.attach_name = list()
             attachs = self.xpaths(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[3]/td/ul/li[*]/a')
             for attach in attachs:
                 self.attach_url.append(attach.get_attribute('href'))
+                self.attach_name.append(attach.get_attribute('title').split('다운로드')[0].strip())
 
             notice_store(self)
 

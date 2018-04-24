@@ -4,7 +4,7 @@ from sailer.pacific import store_notice_article
 from sailer.utils import convert_datetime
 import random
 import time
-from notice_common import *
+from .notice_common import *
 
 
 PAGE_URL = "http://pharm.skku.edu/board/board.jsp?catg=notice&curPage={page}"
@@ -39,10 +39,10 @@ class PharmSailer(Sailer):
         date = regex.search(self.html).group("date")
         self.hit = regex.search(self.html).group("hit")
 
-        self.content = self.xpath(r'//*[@id="contents"]').text
+        self.content = self.xpath(r'//*[@id="contents"]').get_attribute('innerHTML')
         self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
 
-        # print(self.sub)
+        print(self.sub)
         # print(self.writer)
         # print(self.hit)
         # print(self.date)
@@ -52,9 +52,13 @@ class PharmSailer(Sailer):
         self.img_url = [img.get_attribute('src') for img in imgs]
 
         attachs = self.xpaths(r'//*[@id="content"]/div/div[2]/div/div/div[1]/table/tbody/tr[3]/td/a[*]')
+        print(attachs)
         self.attach_url = [attach.get_attribute('href') for attach in attachs]
+        self.attach_name = [attach.text.strip() for attach in attachs]
 
-        notice_store(self)
+        print(self.attach_name)
+
+        # notice_store(self)
         time.sleep(random.randrange(5, 10))
 
 

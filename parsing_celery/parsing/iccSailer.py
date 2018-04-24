@@ -34,7 +34,7 @@ class IccSailer(Sailer):
             self.go(self.url)
             self.sub = self.xpath(r'//*[@id="subject"]').text
             self.writer = self.xpath(r'//*[@id="writer"]').text
-            self.content = self.xpath(r'//*[@id="content"]').text
+            self.content = self.xpath(r'//*[@id="content"]').get_attribute('innerHTML')
             date = self.xpath(r'//*[@id="time"]').text
             self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
             self.number = self.numbers[i]
@@ -46,9 +46,12 @@ class IccSailer(Sailer):
                 self.img_url.append(img.get_attribute('src'))
 
             self.attach_url = []
+            self.attach_name = list()
             attachs = self.xpaths(r'//*[@id="sub-container"]/div[3]/table/tbody/tr[*]/td[2]/a')
             for attach in attachs:
                 self.attach_url.append(attach.get_attribute('href'))
+                self.attach_name.append(re.compile('(?P<attach_name>.*) \(\d* Bytes\)').search(attach.text).group("attach_name"))
+
 
             notice_store(self)
             time.sleep(random.randrange(5, 10))
