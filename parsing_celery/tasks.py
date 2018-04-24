@@ -4,11 +4,12 @@ django.setup()
 import time
 from celery import shared_task
 from raven import Client
+from billiard.exceptions import Terminated
 
 from celery.result import AsyncResult
 
 
-@shared_task
+@shared_task(throws=(Terminated,))
 def parsing(file_name):
     exec('from .parsing import {}'.format(file_name))
 
