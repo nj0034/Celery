@@ -71,7 +71,7 @@ class TerminateParsing(APIView):
 
         for celery_task_id in celery_task_id_list:
             if not AsyncResult(celery_task_id).ready():
-                AsyncResult(celery_task_id).revoke(terminate=True)
+                AsyncResult(celery_task_id).revoke()
 
             result_info = update_state(celery_task_id)
             terminate_task_list.append(result_info)
