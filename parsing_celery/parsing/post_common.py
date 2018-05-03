@@ -47,7 +47,7 @@ def download_to_temp(url):
     #     return None
     try:
         filename = url.split('/')[-1]
-        filepath = 'tmp/%s' % filename
+        filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
         return open(filepath, 'rb')
     except:

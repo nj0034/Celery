@@ -32,11 +32,11 @@ def notice_store(notice):
         if res['uuid']:
             for img_url in notice.img_url:
                 file = download_to_temp(img_url, res['uuid'], '')
-                # os.remove(file)
+                #os.remove(file)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 file = download_to_temp(attach_url, res['uuid'], attach_name)
-                # os.remove(file)
+                #os.remove(file)
 
 
 def store_file(**kwargs):
@@ -55,18 +55,18 @@ def store_file(**kwargs):
 
 
 def download_to_temp(url, uuid, name):
-    # if not url:
-    #     return None
+    if not url:
+        return None
     try:
         if name:
             filename = name
         else:
             filename = url.split('/')[-1]
-        filepath = r'C:\Users\user.user-PC\PycharmProjects\Luna-Server\pacific\parsing\tmp/%s' % filename
+        filepath = r'/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
         store_file(uuid=uuid, files=[filepath])
-        # return open(filepath, 'rb')
-        return filepath
+        return open(filepath, 'rb')
+        #return filepath
     except:
         return None
 
