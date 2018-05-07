@@ -52,16 +52,22 @@ class BizSailer(Sailer):
         self.attach_url = []
         self.attach_name = list()
         attach_url_form = 'https://biz.skku.edu/cmm/fms/FileDown.do?atchFileId={0}&fileSn={1}'
-        atchFileIds = self.xpaths(r'//*[@id="container"]/div[3]/div[1]/div[3]/a[*]')
-        print(atchFileIds)
+        # atchFileIds = self.xpaths(r'//*[@id="container"]/div[3]/div[1]/div[3]/a[*]')
+        # print(atchFileIds)
+        attach_html = self.xpath(r'//*[@id="container"]/div[3]/div[1]/div[3]').get_attribute('innerHTML')
+        try:
+            atchFileIds = re.findall('href=\".*\(\'(?P<atchFileId>.*)\',', attach_html)
+        except:
+            atchFileIds = None
+
         for fileSn, atchFileId in enumerate(atchFileIds):
-            self.attach_name.append(atchFileId.text)
+            self.attach_name.append(atchFileId)
             print(self.attach_name)
-            atchFileId = atchFileId.split('\'')[1]
+            # atchFileId = atchFileId.split('\'')[1]
             self.attach_url.append(attach_url_form.format(atchFileId, fileSn))
             print(self.attach_url)
 
-        # notice_store(self)
+        notice_store(self)
 
         time.sleep(random.randrange(5, 10))
 

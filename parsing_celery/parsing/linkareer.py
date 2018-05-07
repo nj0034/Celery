@@ -43,29 +43,8 @@ class LinkareerSailer(Sailer):
         self.go(self.url)
         print(self.url)
         data_dic = {}
-        # indexs = self.xpaths(r'//*[@id="activity-container"]/div[1]/div[5]/div[2]/div[1]/div[1]/dl[*]/dt')
-        # datas = self.xpaths(r'//*[@id="activity-container"]/div[1]/div[5]/div[2]/div[1]/div[1]/dl[*]/dd')
-        #
-        # for i, d in zip(indexs, datas):
-        #     print(i.text + ' : ' + d.text)
 
-        # datas = self.css(r'#activity-container > div.activity-content > div.activity-info > div.activity-sum > div.activity-sum-info')
-        # find = re.compile(r'<div class="activity-sum-info">(\s*.*) (<div class="activity-sum-part">)$')
-        # html = find.search(self.html)
-        # print(html)
-        # #
-        # regex = re.compile(r'<dt>(.+)<\/dt>\s*<dd>\s*(.+)\s*<\/dd>')
-        # matchobj = regex.findall(self.html)
-        # print(matchobj)
-
-        # data = matchobj.groupdict()
-        # print(data)
-        # indexs = matchobj.groups("index")
-        # datas = matchobj.groups("data")
-        # for i, d in zip(indexs, datas):
-        #     print(i + d)
-
-
+        self.css(r'#activity-container > div.activity-content > div.activity-bottom > div > div.activity-detail > div.activity-detail-more').click()
         self.thumnail = self.css(
             r'#activity-container > div.activity-content > div.activity-info > div.activity-thumb > a > span > img').get_attribute(
             'src')
@@ -86,7 +65,7 @@ class LinkareerSailer(Sailer):
         self.benefit = self.css(
             r'#activity-container > div.activity-content > div.activity-info > div.activity-sum > div.activity-sum-info > div.activity-sum-right > dl.benefit-data > dd').text
         self.detail = self.css(
-            r'#activity-container > div.activity-content > div.activity-bottom > div > div.activity-detail').text
+            r'#activity-container > div.activity-content > div.activity-bottom > div > div.activity-detail').split('간단히')[0]
         try:
             regex = re.compile(r'homepage-url" href="(?P<url>.*)"\s')
             self.home_url = regex.search(self.html).group("url")

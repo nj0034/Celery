@@ -66,7 +66,7 @@ class ArtSailer(Sailer):
 
             print(self.attach_name)
 
-            # notice_store(self)
+            notice_store(self)
             time.sleep(random.randrange(5, 10))
 
 

@@ -56,6 +56,7 @@ class PharmSailer(Sailer):
         self.attach_url = [attach.get_attribute('href') for attach in attachs]
         self.attach_name = [attach.text.strip() for attach in attachs]
 
+        print(self.attach_url)
         print(self.attach_name)
 
         # notice_store(self)
