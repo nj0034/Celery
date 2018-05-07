@@ -50,5 +50,6 @@ def download_to_temp(url):
         filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
         return open(filepath, 'rb')
+        #return filepath
     except:
         return None
