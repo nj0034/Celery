@@ -40,11 +40,12 @@ def notice_store(notice):
 
 
 def store_file(**kwargs):
-    LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
+    # LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
+    LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
     body = {
         "uuid": kwargs['uuid'],
-        "upload_files": kwargs['files'],
+        "upload_file": kwargs['file'],
     }
 
     output = {"data": body}
@@ -64,7 +65,7 @@ def download_to_temp(url, uuid, name):
             filename = url.split('/')[-1]
         filepath = r'/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
-        store_file(uuid=uuid, files=[filepath])
+        store_file(uuid=uuid, file=filepath)
         #return open(filepath, 'rb')
         return filepath
     except:
