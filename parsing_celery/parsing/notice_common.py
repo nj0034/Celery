@@ -36,6 +36,7 @@ def notice_store(notice):
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 file = download_to_temp(attach_url, res['uuid'], attach_name)
+                #store_file(uuid=res['uuid'], file=file)
                 os.remove(file)
 
 
@@ -44,11 +45,14 @@ def store_file(**kwargs):
     LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
     body = {
-        "uuid": kwargs['uuid'],
-        "upload_file": kwargs['file'],
+        "uuid": kwargs['uuid']
+    }
+    files = {
+        "upload_file": kwargs['file']
     }
 
-    output = {"data": body}
+    output = {"data": body, "files": files}
+
     res = requests.post(LUNA_PACIFIC_STOREFILE_ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
@@ -65,7 +69,7 @@ def download_to_temp(url, uuid, name):
             filename = url.split('/')[-1]
         filepath = r'/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
-        store_file(uuid=uuid, file=filepath)
+        store_file(uuid=uuid, file=open(filepath, 'rb'))
         #return open(filepath, 'rb')
         return filepath
     except:
