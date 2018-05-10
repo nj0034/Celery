@@ -31,8 +31,10 @@ def notice_store(notice):
 
         if res['uuid']:
             for img_url in notice.img_url:
-                s3_url = download_to_temp(img_url, res['uuid'], '')
-                print(s3_url)
+                s3_img_url = download_to_temp(img_url, res['uuid'], '')
+                notice.content.replace('img_url', s3_img_url)
+
+            print(notice.content)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 download_to_temp(attach_url, res['uuid'], attach_name)
