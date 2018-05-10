@@ -41,8 +41,8 @@ def notice_store(notice):
 
 
 def store_file(**kwargs):
-    # LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
-    LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
+    LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
+    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
     body = {
         "uuid": kwargs['uuid']
