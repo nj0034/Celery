@@ -9,7 +9,8 @@ import re
 
 
 def notice_store(notice):
-    LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
+    #LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
+    LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
 
     body = {
         "no": notice.number,
@@ -41,15 +42,15 @@ def notice_store(notice):
                     "uuid": res['uuid'],
                     "content": converted_img_content
                 }
-                requests.patch(LUNA_PACIFIC_ENDPOINT, data=data)
+                requests.post(LUNA_PACIFIC_ENDPOINT + '/modify', data=data)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 download_to_temp(attach_url, res['uuid'], attach_name)
 
 
 def store_file(**kwargs):
-    LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
-    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
+    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
+    LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
     body = {
         "uuid": kwargs['uuid']
