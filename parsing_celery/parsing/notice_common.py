@@ -31,13 +31,11 @@ def notice_store(notice):
 
         if res['uuid']:
             for img_url in notice.img_url:
-                file = download_to_temp(img_url, res['uuid'], '')
-                os.remove(file)
+                s3_url = download_to_temp(img_url, res['uuid'], '')
+                print(s3_url)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
-                file = download_to_temp(attach_url, res['uuid'], attach_name)
-                #store_file(uuid=res['uuid'], file=file)
-                os.remove(file)
+                download_to_temp(attach_url, res['uuid'], attach_name)
 
 
 def store_file(**kwargs):
@@ -57,6 +55,7 @@ def store_file(**kwargs):
     if res:
         res = json.loads(res.text)
         print("Response of store_file : ", res)
+        return res.get('url', '')
 
 
 def download_to_temp(url, uuid, name):
@@ -69,9 +68,9 @@ def download_to_temp(url, uuid, name):
             filename = url.split('/')[-1]
         filepath = r'/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
         download(url, filepath)
-        store_file(uuid=uuid, file=open(filepath, 'rb'))
-        #return open(filepath, 'rb')
-        return filepath
+        s3_url = store_file(uuid=uuid, file=open(filepath, 'rb'))
+        os.remove(filepath)
+        return s3_url
     except:
         return None
 
