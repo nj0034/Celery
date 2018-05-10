@@ -65,7 +65,7 @@ class LinkareerSailer(Sailer):
         self.benefit = self.css(
             r'#activity-container > div.activity-content > div.activity-info > div.activity-sum > div.activity-sum-info > div.activity-sum-right > dl.benefit-data > dd').text
         self.detail = self.css(
-            r'#activity-container > div.activity-content > div.activity-bottom > div > div.activity-detail').split('간단히')[0]
+            r'#activity-container > div.activity-content > div.activity-bottom > div > div.activity-detail').text.split('간단히')[0]
         try:
             regex = re.compile(r'homepage-url" href="(?P<url>.*)"\s')
             self.home_url = regex.search(self.html).group("url")
