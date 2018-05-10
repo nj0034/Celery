@@ -30,12 +30,18 @@ def notice_store(notice):
         print("Response of notice_store : ", res)
 
         if res['uuid']:
-            for img_url in notice.img_url:
-                s3_img_url = download_to_temp(img_url, res['uuid'], '')
-                # notice.content.replace('img_url', s3_img_url)
-                new = re.sub(img_url, s3_img_url, notice.content)
+            if notice.img_url:
+                converted_img_content = notice.content
 
-            print(new)
+                for img_url in notice.img_url:
+                    s3_img_url = download_to_temp(img_url, res['uuid'], '')
+                    # notice.content.replace('img_url', s3_img_url)
+                    converted_img_content = re.sub(img_url, s3_img_url, converted_img_content)
+                data = {
+                    "uuid": res['uuid'],
+                    "content": converted_img_content
+                }
+                requests.patch(LUNA_PACIFIC_ENDPOINT, data=data)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 download_to_temp(attach_url, res['uuid'], attach_name)
