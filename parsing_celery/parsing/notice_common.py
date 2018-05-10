@@ -12,6 +12,10 @@ def notice_store(notice):
     #LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
     LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
 
+    if datetime.strptime(notice.date, "%Y-%m-%d %H:%M:%S") <= datetime(year=2018, month=5, day=1):
+        print("parsing quit")
+        quit()
+
     body = {
         "no": notice.number,
         "title": notice.sub,
