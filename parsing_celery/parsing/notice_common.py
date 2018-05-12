@@ -38,7 +38,7 @@ def notice_store(notice):
         if res.get('uuid', ''):
             if notice.img_url:
                 converted_img_content = notice.content
-                img_src_list = re.findall(r'', converted_img_content)
+                img_src_list = re.findall(r'<img.*src="(?P<url>.*)"\s', converted_img_content)
 
                 for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(img_url, res['uuid'], '')
