@@ -13,9 +13,10 @@ def notice_store(notice):
     #LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
 
     if datetime.strptime(notice.date, "%Y-%m-%d %H:%M:%S") < datetime(year=2018, month=1, day=1):
-        print(notice.date)
-        print("parsing quit")
-        quit()
+        if notice.number != 'top':
+            print(notice.date)
+            print("parsing quit")
+            quit()
 
     body = {
         "no": notice.number,
