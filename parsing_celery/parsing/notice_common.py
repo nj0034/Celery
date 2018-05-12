@@ -9,10 +9,11 @@ import re
 
 
 def notice_store(notice):
-    #LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
-    LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
+    LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
+    #LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
 
-    if datetime.strptime(notice.date, "%Y-%m-%d %H:%M:%S") <= datetime(year=2018, month=5, day=1):
+    if datetime.strptime(notice.date, "%Y-%m-%d %H:%M:%S") < datetime(year=2018, month=1, day=1):
+        print(notice.date)
         print("parsing quit")
         quit()
 
@@ -34,14 +35,15 @@ def notice_store(notice):
         res = json.loads(res.text)
         print("Response of notice_store : ", res)
 
-        if res['uuid']:
+        if res.get('uuid', ''):
             if notice.img_url:
                 converted_img_content = notice.content
+                img_src_list = re.findall(r'', converted_img_content)
 
-                for img_url in notice.img_url:
+                for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(img_url, res['uuid'], '')
                     # notice.content.replace('img_url', s3_img_url)
-                    converted_img_content = re.sub(img_url, s3_img_url, converted_img_content)
+                    converted_img_content = re.sub(img_src, s3_img_url, converted_img_content)
                 data = {
                     "uuid": res['uuid'],
                     "content": converted_img_content
@@ -53,8 +55,8 @@ def notice_store(notice):
 
 
 def store_file(**kwargs):
-    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
-    LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
+    LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
+    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
     body = {
         "uuid": kwargs['uuid']
