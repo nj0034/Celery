@@ -44,7 +44,7 @@ class DormSuwon(Sailer):
             self.writer = ''
             self.content = self.xpath(r'//*[@id="article_text"]').get_attribute('innerHTML')
             self.hit = self.xpath(
-                r'//*[@id="item_body"]/div[3]/div/div[2]/div[1]/div[2]/div[2]/div/div[1]/table/tbody/tr[2]/td').text
+                r'//*[@id="item_body"]/div[3]/div/div[2]/div[1]/div[2]/div[2]/div/div[1]/table/tbody/tr[2]/td').text.split(":")[-1].strip()
             date = self.xpath(
                 r'//*[@id="item_body"]/div[3]/div/div[2]/div[1]/div[2]/div[2]/div/div[1]/table/tbody/tr[2]/td/span[4]').text
             self.date = convert_datetime(date, '%Y-%m-%d', '%Y-%m-%d %H:%M:%S')
@@ -57,6 +57,8 @@ class DormSuwon(Sailer):
 
             img_urls = self.xpaths(r'//*[@id="article_text"]/p[*]/img')
             self.img_url = [url.get_attribute('src') for url in img_urls]
+
+            print(self.img_url)
 
             self.attach_url = []
             self.attach_name = list()
