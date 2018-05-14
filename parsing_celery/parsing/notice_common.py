@@ -8,9 +8,11 @@ from sailer.utils import *
 import re
 
 
+LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
+LUNA_TEST_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/article/notice"
+#LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
+
 def notice_store(notice):
-    LUNA_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/article/notice"
-    #LUNA_PACIFIC_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice"
 
     if datetime.strptime(notice.date, "%Y-%m-%d %H:%M:%S") < datetime(year=2018, month=5, day=1):
         if notice.number != 'top':
@@ -31,7 +33,12 @@ def notice_store(notice):
 
     output = {"data": body}
 
-    res = requests.post(LUNA_PACIFIC_ENDPOINT, **output)
+    request_file(LUNA_PACIFIC_ENDPOINT, output, notice)
+    # request_file(LUNA_TEST_PACIFIC_ENDPOINT, output, notice)
+
+
+def request_file(ENDPOINT, output, notice):
+    res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
         print("Response of notice_store : ", res)
@@ -43,22 +50,19 @@ def notice_store(notice):
 
                 for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(img_url, res['uuid'], '')
-                    # notice.content.replace('img_url', s3_img_url)
                     converted_img_content = re.sub(img_src, s3_img_url, converted_img_content)
                 data = {
                     "uuid": res['uuid'],
                     "content": converted_img_content
                 }
-                requests.post(LUNA_PACIFIC_ENDPOINT + '/modify', data=data)
+                requests.post(ENDPOINT + '/modify', data=data)
 
             for attach_url, attach_name in zip(notice.attach_url, notice.attach_name):
                 download_to_temp(attach_url, res['uuid'], attach_name)
 
 
-def store_file(**kwargs):
-    LUNA_PACIFIC_STOREFILE_ENDPOINT = "https://luna.devhi.me/pacific/article/notice/file"
-    #LUNA_PACIFIC_STOREFILE_ENDPOINT = "http://13.125.125.118:8000/pacific/article/notice/file"
 
+def store_file(**kwargs):
     body = {
         "uuid": kwargs['uuid']
     }
@@ -68,7 +72,7 @@ def store_file(**kwargs):
 
     output = {"data": body, "files": files}
 
-    res = requests.post(LUNA_PACIFIC_STOREFILE_ENDPOINT, **output)
+    res = requests.post(LUNA_PACIFIC_ENDPOINT + "/file", **output)
     if res:
         res = json.loads(res.text)
         print("Response of store_file : ", res)
