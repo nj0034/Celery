@@ -6,12 +6,12 @@ import time
 from .notice_common import *
 
 
-class DormSuwon(Sailer):
+class DormSeoul(Sailer):
     def start(self):
         self.category = '봉룡학사'
         self.top = False
         for i in range(0, 60):
-            self.page_url = "https://dorm.skku.edu/skku/notice/notice_all.jsp?mode=list&board_no=16&pager.offset={}0".format(3*i)
+            self.page_url = "https://dorm.skku.edu/skku_seoul/notice/notice_all.jsp?mode=list&board_no=78&pager.offset={}0".format(i)
             self.go(self.page_url)
             print("# {} page start".format(i + 1))
             self.page()
@@ -72,6 +72,6 @@ class DormSuwon(Sailer):
             time.sleep(random.randrange(5, 10))
 
 
-ds = DormSuwon()
+ds = DormSeoul()
 ds.start()
 ds.close()
