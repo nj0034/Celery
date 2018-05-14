@@ -29,10 +29,10 @@ class DormSuwon(Sailer):
 
     def data_parse(self):
         for self.number, self.url, self.type in zip(self.numbers, self.sub_urls, self.types):
-            if not self.number:
-                if self.type.text == 'Notice in English':
-                    continue
+            if self.type == 'Notice in English':
+                continue
 
+            if not self.number:
                 if not self.top:
                     self.number = 'top'
                 else:
