@@ -5,7 +5,7 @@ import requests
 
 
 def post_store(post):
-    LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/post_store"
+    LUNA_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/post_store"
 
     body = {
         "title": post.sub,
