@@ -8,7 +8,7 @@ from .notice_common import *
 
 class DormSeoul(Sailer):
     def start(self):
-        self.category = '봉룡학사'
+        self.category = '명륜학사'
         self.top = False
         for i in range(0, 60):
             self.page_url = "https://dorm.skku.edu/skku_seoul/notice/notice_all.jsp?mode=list&board_no=78&pager.offset={}0".format(i)
