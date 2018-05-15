@@ -1,11 +1,12 @@
 import json
-
 import os
 import requests
+from PIL import Image
 
 
 def post_store(post):
     LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/post_store"
+    LUNA_TEST_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/article/post_store"
 
     body = {
         "title": post.sub,
@@ -25,7 +26,12 @@ def post_store(post):
     if post.files:
         output.update({"files": post.files})
 
-    res = requests.post(LUNA_PACIFIC_ENDPOINT, **output)
+    request_post(LUNA_PACIFIC_ENDPOINT, output, post)
+    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
+
+
+def request_post(ENDPOINT, output, post):
+    res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
         print("Response of post_store : ", res)
@@ -48,8 +54,28 @@ def download_to_temp(url):
     try:
         filename = url.split('/')[-1]
         filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
+        thumbnail_filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename.split('.')[0] + '_thumbnail.jpg'
+
         download(url, filepath)
-        return open(filepath, 'rb')
-        #return filepath
+        resize_thumbnail(filepath, thumbnail_filepath)
+
+        files_json = {
+            "poster": open(filepath, 'rb'),
+            "thumbnail": open(thumbnail_filepath, 'rb')
+        }
+
+        return files_json
+        # return open(filepath, 'rb')
+        # return filepath
     except:
         return None
+
+
+def resize_thumbnail(filepath, thumbnail_filepath):
+    thumbnail_img = Image.open(filepath)
+    new_width = 680
+    wpercent = (new_width / float(thumbnail_img.size[0]))
+    new_height = int((float(thumbnail_img.size[1]) * float(wpercent)))
+    thumbnail_img.thumbnail((new_width, new_height), Image.ANTIALIAS)
+    thumbnail_img.save(thumbnail_filepath, quailty=60)
+

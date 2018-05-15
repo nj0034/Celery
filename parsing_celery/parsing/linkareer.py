@@ -79,8 +79,7 @@ class LinkareerSailer(Sailer):
         print(self.benefit)
         print(self.home_url)
 
-        poster_file = download_to_temp(self.thumnail)
-        self.files = {'poster': poster_file}
+        self.files = download_to_temp(self.thumnail)
         post_store(self)
         time.sleep(random.randrange(5, 10))
 

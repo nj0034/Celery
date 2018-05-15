@@ -84,9 +84,7 @@ class CampusmonSailer(Sailer):
         self.go(detail_url)
         self.detail = self.xpath(r'/html/body').text
 
-        poster_file = download_to_temp(self.thumnail)
-        print(poster_file)
-        self.files = {'poster': poster_file}
+        self.files = download_to_temp(self.thumnail)
         print(self.files)
         post_store(self)
         time.sleep(random.randrange(5, 10))
