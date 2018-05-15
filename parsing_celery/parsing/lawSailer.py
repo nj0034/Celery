@@ -36,7 +36,7 @@ class LawSailer(Sailer):
                 else:
                     continue
 
-            self.go('http://law.skku.edu/law/menu_2/sub_02_01.jsp?mode=view&article_no=319505&board_wrapper=%2Flaw%2Fmenu_2%2Fsub_02_01.jsp&pager.offset=0&board_no=618')
+            self.go(self.url)
             self.sub = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[1]/td').text
             self.writer = self.xpath(r'//*[@id="jwxe_main_content"]/div/div[1]/table/tbody/tr[2]/td[1]').text
             self.content = self.xpath(r'//*[@id="article_text"]').get_attribute('innerHTML')
