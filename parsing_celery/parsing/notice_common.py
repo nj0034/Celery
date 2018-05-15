@@ -6,6 +6,7 @@ from sailer.sailer import Sailer
 from sailer.pacific import *
 from sailer.utils import *
 import re
+from bs4 import BeautifulSoup
 
 
 LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/article/notice"
@@ -46,7 +47,10 @@ def request_file(ENDPOINT, output, notice):
         if res.get('uuid', ''):
             if notice.img_url:
                 converted_img_content = notice.content
-                img_src_list = re.findall(r'<img.*src="(?P<url>.*)"\s', converted_img_content)
+                # img_src_list = re.findall(r'<img.*src="(?P<url>.*)"\s', converted_img_content)
+                content_html = BeautifulSoup(converted_img_content, "html.parser")
+                img_list = content_html.find_all('img')
+                img_src_list = [img.get('src') for img in img_list]
 
                 for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(img_url, res['uuid'], '')
