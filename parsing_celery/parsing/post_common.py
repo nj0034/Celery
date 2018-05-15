@@ -29,16 +29,15 @@ def post_store(post):
     request_post(LUNA_PACIFIC_ENDPOINT, output, post)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
 
+    for file in post.files.values():
+        os.remove(file.name)
+
 
 def request_post(ENDPOINT, output, post):
     res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
         print("Response of post_store : ", res)
-
-    for file in post.files.values():
-        os.remove(file.name)
-    return res
 
 
 def download(url, filename):
