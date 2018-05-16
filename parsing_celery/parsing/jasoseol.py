@@ -11,9 +11,9 @@ import time
 import json
 import requests
 
-from .post_common import *
+from .recruit_common import *
 
-LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/recruit_store"
+
 
 class JasoseolSailer(Sailer):
     def start(self):
@@ -55,8 +55,10 @@ class JasoseolSailer(Sailer):
             r'/html/body/div[3]/div[2]/div/div[1]/div[1]/div/div[2]/div[3]/div[1]/a[2]').get_attribute('href')
         try:
             self.detail_img = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[3]/div/p/img').get_attribute('src')
+            self.thumbnail = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[1]/div/div[1]/img').get_attribute('src')
+            self.files = download_to_temp(self.detail_img, self.thumbnail)
         except:
-            self.detail_img = None
+            self.files = None
 
         companies = self.xpaths(r'/html/body/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[*]/td[1]')
         fields = self.xpaths(r'/html/body/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[*]/td[2]')
@@ -76,37 +78,9 @@ class JasoseolSailer(Sailer):
             print(self.home_url)
             print(self.detail_img)
 
-            detail_img = download_to_temp(self.detail_img)
-            self.files = {'detail_img': detail_img}
+            recruit_store(self)
 
-            self.recruit_store()
             time.sleep(random.randrange(5, 10))
-
-    def recruit_store(self):
-        body = {
-            "company": self.company,
-            "field": self.field,
-            "recruitment_type": self.recruitment_type,
-            "start_date": self.start_date,
-            "end_date": self.end_date,
-            "parsing_url": self.url,
-            "home_url": self.home_url,
-        }
-
-        output = {"data": body}
-        self.files = {key: value for key, value in self.files.items() if value}
-
-        if self.files:
-            output.update({"files": self.files})
-
-        res = requests.post(LUNA_PACIFIC_ENDPOINT, **output)
-        if res:
-            res = json.loads(res.text)
-            print("Response of recruit_store : ", res)
-
-        for file in self.files.values():
-            os.remove(file.name)
-        return res
 
 
 jss = JasoseolSailer()
