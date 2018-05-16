@@ -24,7 +24,7 @@ def recruit_store(recruit):
     if recruit.files:
         output.update({"files": recruit.files})
 
-    request_post(LUNA_PACIFIC_ENDPOINT, output)
+    # request_post(LUNA_PACIFIC_ENDPOINT, output)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
 
     for file in recruit.files.values():
