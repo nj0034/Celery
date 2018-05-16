@@ -26,14 +26,14 @@ def post_store(post):
     if post.files:
         output.update({"files": post.files})
 
-    request_post(LUNA_PACIFIC_ENDPOINT, output, post)
-    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
+    request_post(LUNA_PACIFIC_ENDPOINT, output)
+    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
 
     for file in post.files.values():
         os.remove(file.name)
 
 
-def request_post(ENDPOINT, output, post):
+def request_post(ENDPOINT, output):
     res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
@@ -76,5 +76,6 @@ def resize_thumbnail(filepath, thumbnail_filepath):
     wpercent = (new_width / float(thumbnail_img.size[0]))
     new_height = int((float(thumbnail_img.size[1]) * float(wpercent)))
     thumbnail_img.thumbnail((new_width, new_height), Image.ANTIALIAS)
+    thumbnail_img = thumbnail_img.convert("RGB")
     thumbnail_img.save(thumbnail_filepath, quailty=60)
 
