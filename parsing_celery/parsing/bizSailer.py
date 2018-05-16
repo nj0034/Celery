@@ -57,12 +57,12 @@ class BizSailer(Sailer):
         attach_html = self.xpath(r'//*[@id="container"]/div[3]/div[1]/div[3]').get_attribute('innerHTML')
         try:
             atchFileIds = re.findall('href=\".*\(\'(?P<atchFileId>.*)\',', attach_html)
+            self.attach_name = re.findall('fn_egov_downFile[^>]*>\s*(.+?)\s*&nbsp;', attach_html)
         except:
             atchFileIds = None
+            self.attach_name = None
 
         for fileSn, atchFileId in enumerate(atchFileIds):
-            self.attach_name.append(atchFileId)
-            print(self.attach_name)
             # atchFileId = atchFileId.split('\'')[1]
             self.attach_url.append(attach_url_form.format(atchFileId, fileSn))
             print(self.attach_url)
