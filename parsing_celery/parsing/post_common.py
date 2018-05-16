@@ -6,7 +6,7 @@ from PIL import Image
 
 def post_store(post):
     LUNA_PACIFIC_ENDPOINT = "https://luna.devhi.me/pacific/post_store"
-    LUNA_TEST_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/article/post_store"
+    LUNA_TEST_PACIFIC_ENDPOINT = "https://toast-test.devhi.me/pacific/post_store"
 
     body = {
         "title": post.sub,
@@ -72,7 +72,7 @@ def download_to_temp(url):
 
 def resize_thumbnail(filepath, thumbnail_filepath):
     thumbnail_img = Image.open(filepath)
-    new_width = 680
+    new_width = 400
     wpercent = (new_width / float(thumbnail_img.size[0]))
     new_height = int((float(thumbnail_img.size[1]) * float(wpercent)))
     thumbnail_img.thumbnail((new_width, new_height), Image.ANTIALIAS)
