@@ -11,7 +11,7 @@ class Sailer:
         self._timeout = 10
 
         # initialize driver
-        self.driver = webdriver.PhantomJS(executable_path=r'C:\Users\nj\Downloads\phantomjs-2.1.1-windows\bin/phantomjs')
+        self.driver = webdriver.PhantomJS(executable_path=r'/usr/local/bin/phantomjs')
         self.driver.implicitly_wait(self.timeout)
 
         # get sentry logger
