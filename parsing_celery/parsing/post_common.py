@@ -25,8 +25,9 @@ def post_store(post):
     request_post(LUNA_PACIFIC_ENDPOINT, output, post)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
 
-    for file in post.files.values():
-        os.remove(file)
+    if post.files:
+        for file in post.files.values():
+            os.remove(file)
 
 
 def request_post(ENDPOINT, output, post):
