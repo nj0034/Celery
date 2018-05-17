@@ -28,10 +28,10 @@ def recruit_store(recruit):
 
 def request_post(ENDPOINT, output, recruit):
     if recruit.files:
-        recruit.files = {key: open(value, 'rb') for key, value in recruit.files.items() if value}
-        # files = dict()
-        # for key, value in recruit.files:
-        #     files.update({key: open(value, 'rb')})
+        recruit.files = {key: value for key, value in recruit.files.items() if value}
+        files = dict()
+        for key, value in recruit.files:
+            files.update({key: open(value, 'rb')})
 
         # files = {
         #     "detail_img": open(recruit.files.get('detail_img', None), 'rb'),
