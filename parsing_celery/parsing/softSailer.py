@@ -43,7 +43,7 @@ class SoftSailer(Sailer):
         for img in imgs:
             self.img_url.append(img.get_attribute('src'))
 
-        attach_html = self.xpath(r'//*[@id="files"]')
+        attach_html = self.xpath(r'//*[@id="files"]').get_attribute('innerHTML')
 
         if attach_html:
             attach_html = BeautifulSoup(attach_html, "html.parser")
