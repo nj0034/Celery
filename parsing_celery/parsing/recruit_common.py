@@ -19,7 +19,7 @@ def recruit_store(recruit):
     }
 
     output = {"data": body}
-    recruit.files = {key: value for key, value in recruit.files.items() if value}
+    # recruit.files = {key: value for key, value in recruit.files.items() if value}
 
     if recruit.files:
         recruit.files = {key: value for key, value in recruit.files.items() if value}
@@ -59,8 +59,10 @@ def download_to_temp(detail_img_url, thumbnail_url):
             filename = detail_img_url.split('/')[-1]
             filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename
             download(detail_img_url, filepath)
+        else:
+            filepath = None
 
-        thumbnail_filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % filename.split('.')[0] + '_thumbnail.jpg'
+        thumbnail_filepath = '/home/ec2-user/Celery/parsing_celery/parsing/tmp/%s' % 'thumbnail.jpg'
         download(thumbnail_url, thumbnail_filepath)
 
         files_json = {
