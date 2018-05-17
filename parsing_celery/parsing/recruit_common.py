@@ -19,29 +19,26 @@ def recruit_store(recruit):
     }
 
     output = {"data": body}
-    # recruit.files = {key: value for key, value in recruit.files.items() if value}
+    # request_post(LUNA_PACIFIC_ENDPOINT, output)
+    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, recruit)
 
+    # for file in recruit.files.values():
+    #     os.remove(file)
+
+
+def request_post(ENDPOINT, output, recruit):
     if recruit.files:
-        recruit.files = {key: value for key, value in recruit.files.items() if value}
-        files = dict()
-        for key, value in recruit.files:
-            files.update({key: open(value, 'rb')})
+        recruit.files = {key: open(value, 'rb') for key, value in recruit.files.items() if value}
+        # files = dict()
+        # for key, value in recruit.files:
+        #     files.update({key: open(value, 'rb')})
 
         # files = {
         #     "detail_img": open(recruit.files.get('detail_img', None), 'rb'),
         #     "thumbnail": open(recruit.files['thumbnail'], 'rb')
         # }
 
-        output.update({"files": files})
-
-    # request_post(LUNA_PACIFIC_ENDPOINT, output)
-    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
-
-    # for file in recruit.files.values():
-    #     os.remove(file)
-
-
-def request_post(ENDPOINT, output):
+        output.update({"files": recruit.files})
     res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
@@ -49,6 +46,7 @@ def request_post(ENDPOINT, output):
 
 
 def download(url, filename):
+
     res = requests.get(url, stream=True)
     with open(filename, "wb") as file:
         for chunk in res:
