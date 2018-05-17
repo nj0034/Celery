@@ -55,10 +55,13 @@ class JasoseolSailer(Sailer):
             r'/html/body/div[3]/div[2]/div/div[1]/div[1]/div/div[2]/div[3]/div[1]/a[2]').get_attribute('href')
         try:
             self.detail_img = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[3]/div/p/img').get_attribute('src')
-            self.thumbnail = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[1]/div/div[1]/img').get_attribute('src')
-            self.files = download_to_temp(self.detail_img, self.thumbnail)
+            self.detail_text = None
         except:
-            self.files = None
+            self.detail_img = None
+            self.detail_text = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[3]/div[2]').get_attribute('innerHTML')
+
+        self.thumbnail = self.xpath(r'/html/body/div[3]/div[2]/div/div[1]/div[1]/div/div[1]/img').get_attribute('src')
+        self.files = download_to_temp(self.detail_img, self.thumbnail)
 
         companies = self.xpaths(r'/html/body/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[*]/td[1]')
         fields = self.xpaths(r'/html/body/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[*]/td[2]')

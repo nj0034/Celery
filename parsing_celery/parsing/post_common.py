@@ -21,19 +21,23 @@ def post_store(post):
     }
 
     output = {"data": body}
-    post.files = {key: value for key, value in post.files.items() if value}
 
-    if post.files:
-        output.update({"files": post.files})
-
-    request_post(LUNA_PACIFIC_ENDPOINT, output)
-    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
+    request_post(LUNA_PACIFIC_ENDPOINT, output, post)
+    request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
 
     for file in post.files.values():
-        os.remove(file.name)
+        os.remove(file)
 
 
-def request_post(ENDPOINT, output):
+def request_post(ENDPOINT, output, post):
+    if post.files:
+        post.files = {key: value for key, value in post.files.items() if value}
+        files = {
+            "poster": open(post.files['poster'], 'rb'),
+            "thumbnail": open(post.files['thumbnail'], 'rb')
+        }
+        output.update({"files": files})
+
     res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
@@ -59,8 +63,8 @@ def download_to_temp(url):
         resize_thumbnail(filepath, thumbnail_filepath)
 
         files_json = {
-            "poster": open(filepath, 'rb'),
-            "thumbnail": open(thumbnail_filepath, 'rb')
+            "poster": filepath,
+            "thumbnail": thumbnail_filepath
         }
 
         return files_json
