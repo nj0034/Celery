@@ -23,10 +23,14 @@ def recruit_store(recruit):
 
     if recruit.files:
         recruit.files = {key: value for key, value in recruit.files.items() if value}
-        files = {
-            "detail_img": open(recruit.files.get('detail_img', None), 'rb'),
-            "thumbnail": open(recruit.files['thumbnail'], 'rb')
-        }
+        files = dict()
+        for key, value in recruit.files:
+            files.update({key: open(value, 'rb')})
+
+        # files = {
+        #     "detail_img": open(recruit.files.get('detail_img', None), 'rb'),
+        #     "thumbnail": open(recruit.files['thumbnail'], 'rb')
+        # }
 
         output.update({"files": files})
 
