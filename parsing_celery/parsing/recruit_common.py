@@ -16,6 +16,7 @@ def recruit_store(recruit):
         "end_date": recruit.end_date,
         "parsing_url": recruit.url,
         "home_url": recruit.home_url,
+        "detail_text": recruit.detail_text,
     }
 
     output = {"data": body}
@@ -30,7 +31,7 @@ def request_post(ENDPOINT, output, recruit):
     if recruit.files:
         recruit.files = {key: value for key, value in recruit.files.items() if value}
         files = dict()
-        for key, value in recruit.files:
+        for key, value in recruit.files.items():
             files.update({key: open(value, 'rb')})
 
         # files = {
@@ -38,7 +39,7 @@ def request_post(ENDPOINT, output, recruit):
         #     "thumbnail": open(recruit.files['thumbnail'], 'rb')
         # }
 
-        output.update({"files": recruit.files})
+        output.update({"files": files})
     res = requests.post(ENDPOINT, **output)
     if res:
         res = json.loads(res.text)
