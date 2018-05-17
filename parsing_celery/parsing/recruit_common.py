@@ -22,13 +22,18 @@ def recruit_store(recruit):
     recruit.files = {key: value for key, value in recruit.files.items() if value}
 
     if recruit.files:
-        output.update({"files": recruit.files})
+        files = {
+            "detail_img": open(recruit.files['detail_img'], 'rb'),
+            "thumbnail": open(recruit.files['thumbnail'], 'rb')
+        }
+
+        output.update({"files": files})
 
     # request_post(LUNA_PACIFIC_ENDPOINT, output)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
 
     for file in recruit.files.values():
-        os.remove(file.name)
+        os.remove(file)
 
 
 def request_post(ENDPOINT, output):
@@ -57,8 +62,10 @@ def download_to_temp(detail_img_url, thumbnail_url):
         download(thumbnail_url, thumbnail_filepath)
 
         files_json = {
-            "detail_img": open(filepath, 'rb'),
-            "thumbnail": open(thumbnail_filepath, 'rb')
+            # "detail_img": open(filepath, 'rb'),
+            # "thumbnail": open(thumbnail_filepath, 'rb')
+            "detail_img": filepath,
+            "thumbnail": thumbnail_filepath
         }
 
         return files_json
