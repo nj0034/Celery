@@ -80,7 +80,10 @@ class JasoseolSailer(Sailer):
 
             recruit_store(self)
 
-            time.sleep(random.randrange(5, 10))
+        for file in self.files.values():
+            os.remove(file)
+
+        time.sleep(random.randrange(5, 10))
 
 
 jss = JasoseolSailer()

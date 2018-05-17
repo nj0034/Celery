@@ -32,8 +32,8 @@ def recruit_store(recruit):
     # request_post(LUNA_PACIFIC_ENDPOINT, output)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output)
 
-    for file in recruit.files.values():
-        os.remove(file)
+    # for file in recruit.files.values():
+    #     os.remove(file)
 
 
 def request_post(ENDPOINT, output):
