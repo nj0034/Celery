@@ -4,6 +4,7 @@ from sailer.utils import *
 import random
 import time
 from .notice_common import *
+from bs4 import BeautifulSoup
 
 
 class SoftSailer(Sailer):
@@ -42,13 +43,16 @@ class SoftSailer(Sailer):
         for img in imgs:
             self.img_url.append(img.get_attribute('src'))
 
-        self.attach_url = []
-        attachs = self.xpaths(r'//*[@id="files"]/div[*]/div/a')
-        for attach in attachs:
-            self.attach_url.append(attach.get_attribute('href'))
-            print(attach.text)
+        attach_html = self.xpath(r'//*[@id="files"]')
 
-        # notice_store(self)
+        if attach_html:
+            attach_html = BeautifulSoup(attach_html, "html.parser")
+            self.attach_name = [name.text for name in attach_html.find_all('b')]
+
+            attachs = self.xpaths(r'//*[@id="files"]/div[*]/div/a')
+            self.attach_url = [attach.get_attribute('href') for attach in attachs]
+
+        notice_store(self)
 
         time.sleep(random.randrange(5, 10))
 

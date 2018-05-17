@@ -52,14 +52,13 @@ class PharmSailer(Sailer):
         self.img_url = [img.get_attribute('src') for img in imgs]
 
         attachs = self.xpaths(r'//*[@id="content"]/div/div[2]/div/div/div[1]/table/tbody/tr[3]/td/a[*]')
-        print(attachs)
         self.attach_url = [attach.get_attribute('href') for attach in attachs]
         self.attach_name = [attach.text.strip() for attach in attachs]
 
         print(self.attach_url)
         print(self.attach_name)
 
-        # notice_store(self)
+        notice_store(self)
         time.sleep(random.randrange(5, 10))
 
 
