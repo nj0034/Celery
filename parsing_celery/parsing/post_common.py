@@ -22,7 +22,7 @@ def post_store(post):
 
     output = {"data": body}
 
-    request_post(LUNA_PACIFIC_ENDPOINT, output, post)
+    #request_post(LUNA_PACIFIC_ENDPOINT, output, post)
     request_post(LUNA_TEST_PACIFIC_ENDPOINT, output, post)
 
     if post.files:
