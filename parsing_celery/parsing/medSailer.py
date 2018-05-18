@@ -18,7 +18,7 @@ class MedSailer(Sailer):
 
     def page(self):
         self.sub_url = []
-        self.numbers = []
+        self.number = ''
         sub_urls = self.xpaths(r'/html/body/div/table/tbody/tr[2]/td/table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[*]/td[3]/div/a[1]')
 
         for url in sub_urls:
