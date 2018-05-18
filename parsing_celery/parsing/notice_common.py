@@ -19,6 +19,7 @@ def notice_store(notice):
         if notice.number != 'top':
             print(notice.date)
             print("parsing quit")
+            notice.close()
             quit()
 
     body = {

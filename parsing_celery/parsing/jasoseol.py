@@ -13,8 +13,6 @@ import requests
 
 from .recruit_common import *
 
-
-
 class JasoseolSailer(Sailer):
     def start(self):
         self.page_url = "http://jasoseol.com/recruit"
