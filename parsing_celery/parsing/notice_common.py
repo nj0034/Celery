@@ -55,6 +55,8 @@ def request_post(ENDPOINT, output, notice):
 
                 for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(ENDPOINT, img_url, res['uuid'], '', 'image')
+                    print(img_src)
+                    print(s3_img_url)
                     # converted_img_content = re.sub(img_src, s3_img_url, converted_img_content)
                     converted_img_content = converted_img_content.replace(img_src, s3_img_url)
                 data = {
