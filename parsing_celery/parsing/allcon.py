@@ -54,12 +54,17 @@ class AllconSailer(Sailer):
         #     data_dic[i.text] = d.text
         #
         # print(data_dic)
+
+        # try:
+        #     regex = re.compile(r'src="(?P<poster>.*)" alt="포스터"')
+        #     self.thumnail = 'http://www.all-con.co.kr' + regex.search(self.html).group("poster").strip()
+        # except:
+        #     self.thumnail = None
+
         try:
-            regex = re.compile(r'src="(?P<poster>.*)" alt="포스터"')
-            self.thumnail = 'http://www.all-con.co.kr' + regex.search(self.html).group("poster").strip()
+            self.thumnail = self.xpath(r'//*[@id="page_board_contents"]/div[1]/div[2]/div[2]/div[1]/a').get_attribute('href')
         except:
             self.thumnail = None
-
 
         regex = re.compile(r'주관<\/td>\s*<td>(?P<host>.*)<')
         self.host = regex.search(self.html).group("host")
