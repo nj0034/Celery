@@ -49,14 +49,13 @@ def request_post(ENDPOINT, output, notice):
             if notice.img_url:
                 converted_img_content = notice.content
                 # img_src_list = re.findall(r'<img.*src="(?P<url>.*)"\s', converted_img_content)
+                converted_img_content = converted_img_content.replace('&amp;', '&')
                 content_html = BeautifulSoup(converted_img_content, "html.parser")
                 img_list = content_html.find_all('img')
                 img_src_list = [img.get('src') for img in img_list]
 
                 for img_src, img_url in zip(img_src_list, notice.img_url):
                     s3_img_url = download_to_temp(ENDPOINT, img_url, res['uuid'], '', 'image')
-                    print(img_src)
-                    print(s3_img_url)
                     # converted_img_content = re.sub(img_src, s3_img_url, converted_img_content)
                     converted_img_content = converted_img_content.replace(img_src, s3_img_url)
                 data = {
