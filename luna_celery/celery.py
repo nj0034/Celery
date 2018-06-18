@@ -23,14 +23,14 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(crontab(), test.s('world'))
 
 
-app.conf.beat_schedule = {
-    'add-every-10-seconds': {
-        'task': 'test',
-        'schedule': 10.0,
-        'args': ('test', 'success')
-    }
-}
-app.conf.timezone = 'UTC'
+# app.conf.beat_schedule = {
+#     'add-every-10-seconds': {
+#         'task': 'test',
+#         'schedule': 10.0,
+#         'args': ('test', 'success')
+#     }
+# }
+# app.conf.timezone = 'UTC'
 
 @app.task
 def test(arg):
