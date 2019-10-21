@@ -89,7 +89,7 @@ Unidecode==0.4.21
 uritemplate==3.0.0
 urllib3==1.22
 vine==1.1.4
-Werkzeug==0.13
+Werkzeug==0.15.3
 wrapt==1.10.11
 wsgi-request-logger==0.4.6
 zappa==0.45.1
