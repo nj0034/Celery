@@ -68,7 +68,7 @@ pyOpenSSL==17.5.0
 python-dateutil==2.6.1
 python-slugify==1.2.4
 pytz==2017.3
-PyYAML==3.12
+PyYAML==5.4
 raven==6.4.0
 redis==2.10.6
 requests==2.18.4
