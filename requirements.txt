@@ -72,7 +72,7 @@ PyYAML==3.12
 raven==6.4.0
 redis==2.10.6
 requests==2.18.4
-rsa==3.4.2
+rsa==4.7
 s3transfer==0.1.12
 selenium==3.11.0
 service-identity==17.0.0
